@@ -8,6 +8,8 @@ module DoorkeeperAuth
     base.before_action :access_denied?
   end
 
+  private
+
   def access_denied?
     raise(DisallowedAccessError, "This resource is not accessible via the API") if disallowed?
   end
