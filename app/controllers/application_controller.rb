@@ -13,10 +13,9 @@ class ApplicationController < ActionController::Base
 
   include CurrentUser # must be after protect_from_forgery, so that authenticate! is called
 
-  rescue_from(DoorkeeperAuth::DisallowedAccessError) do |message|
-    if Rails.env.test?
-      raise(DoorkeeperAuth::DisallowedAccessError, message)
-    else
+
+  unless Rails.env.test?
+    rescue_from(DoorkeeperAuth::DisallowedAccessError) do |message|
       render text: "This resource is not available via the API", status: 200
     end
   end
